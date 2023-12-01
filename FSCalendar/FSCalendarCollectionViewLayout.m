@@ -145,8 +145,7 @@
     free(self.widths);
     self.widths = ({
         NSInteger columnCount = 7;
-        size_t columnSize = sizeof(CGFloat)*columnCount;
-        CGFloat *widths = malloc(columnSize);
+        CGFloat *widths = calloc(columnCount, sizeof(CGFloat));
         CGFloat contentWidth = self.collectionView.fs_width - self.sectionInsets.left - self.sectionInsets.right;
         FSCalendarSliceCake(contentWidth, columnCount, widths);
         widths;
@@ -155,8 +154,7 @@
     free(self.lefts);
     self.lefts = ({
         NSInteger columnCount = 7;
-        size_t columnSize = sizeof(CGFloat)*columnCount;
-        CGFloat *lefts = malloc(columnSize);
+        CGFloat *lefts = calloc(columnCount, sizeof(CGFloat));
         lefts[0] = self.sectionInsets.left;
         for (int i = 1; i < columnCount; i++) {
             lefts[i] = lefts[i-1] + self.widths[i-1];
@@ -168,8 +166,7 @@
     free(self.heights);
     self.heights = ({
         NSInteger rowCount = self.calendar.transitionCoordinator.representingScope == FSCalendarScopeWeek ? 1 : 6;
-        size_t rowSize = sizeof(CGFloat)*rowCount;
-        CGFloat *heights = malloc(rowSize);
+        CGFloat *heights = calloc(rowCount, sizeof(CGFloat));
         if (!self.calendar.floatingMode) {
             CGFloat contentHeight = self.collectionView.fs_height - self.sectionInsets.top - self.sectionInsets.bottom;
             FSCalendarSliceCake(contentHeight, rowCount, heights);
@@ -184,8 +181,7 @@
     free(self.tops);
     self.tops = ({
         NSInteger rowCount = self.calendar.transitionCoordinator.representingScope == FSCalendarScopeWeek ? 1 : 6;
-        size_t rowSize = sizeof(CGFloat)*rowCount;
-        CGFloat *tops = malloc(rowSize);
+        CGFloat *tops = calloc(rowCount, sizeof(CGFloat));
         tops[0] = self.sectionInsets.top;
         for (int i = 1; i < rowCount; i++) {
             tops[i] = tops[i-1] + self.heights[i-1];
@@ -215,9 +211,9 @@
             contentSize = CGSizeMake(width, height);
         } else {
             free(self.sectionHeights);
-            self.sectionHeights = malloc(sizeof(CGFloat)*self.numberOfSections);
+            self.sectionHeights = calloc(self.numberOfSections, sizeof(CGFloat));
             free(self.sectionRowCounts);
-            self.sectionRowCounts = malloc(sizeof(NSInteger)*self.numberOfSections);
+            self.sectionRowCounts = calloc(self.numberOfSections, sizeof(NSInteger));
             CGFloat width = self.collectionView.fs_width;
             CGFloat height = 0;
             for (int i = 0; i < self.numberOfSections; i++) {
@@ -231,9 +227,9 @@
                 height += sectionHeight;
             }
             free(self.sectionTops);
-            self.sectionTops = malloc(sizeof(CGFloat)*self.numberOfSections);
+            self.sectionTops = calloc(self.numberOfSections, sizeof(CGFloat));
             free(self.sectionBottoms);
-            self.sectionBottoms = malloc(sizeof(CGFloat)*self.numberOfSections);
+            self.sectionBottoms = calloc(self.numberOfSections, sizeof(CGFloat));
             self.sectionTops[0] = 0;
             self.sectionBottoms[0] = self.sectionHeights[0];
             for (int i = 1; i < self.numberOfSections; i++) {

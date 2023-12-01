@@ -415,7 +415,7 @@ if (!strcmp(returnType, @encode(_type))) { \
 #undef RETURN_STRUCT_TYPES
         } else {
             // basic
-            void *buffer = (void *)malloc(length);
+            void *buffer = (void *)calloc(1, length);
             [invocation getReturnValue:buffer];
 #define RETURN_BASIC_TYPES(_type) \
     if (!strcmp(returnType, @encode(_type))) { \
